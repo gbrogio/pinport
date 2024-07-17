@@ -46,11 +46,10 @@ type CreatePin = {
  * Namespace for Pinport client types.
  */
 declare namespace Pinport {
-    type Pin = Pin;
-    type CreatePin = CreatePin;
-    type ErrorResponse = ThrowErrorResponse;
-    type PinportFetch = <T>(input: string | URL | globalThis.Request, init?: RequestInit) => Promise<T>;
-    interface Extension {
+    export type { Pin, CreatePin };
+    export type ErrorResponse = ThrowErrorResponse;
+    export type PinportFetch = <T>(input: string | URL | globalThis.Request, init?: RequestInit) => Promise<T>;
+    export interface Extension {
         key: string;
         instance: new (fetch: PinportFetch) => any;
     }
