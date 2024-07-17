@@ -1,11 +1,53 @@
-import type { ThrowErrorResponse } from "./types/error";
-import type * as PinType from "./types/pin";
+type ThrowErrorResponse = {
+    error: "unknown" | {
+        issues: [];
+    };
+};
+
+type Pin = {
+    id: string;
+    meta_id: string;
+    position: {
+        x: number;
+        y: number;
+        z: number;
+    };
+    offset: {
+        x: number;
+        y: number;
+        z: number;
+    };
+    html: string;
+    opacity: number;
+    enableLine: boolean;
+    alert: boolean;
+    icon: string;
+};
+type CreatePin = {
+    meta_id: string;
+    position: {
+        x: number;
+        y: number;
+        z: number;
+    };
+    offset?: {
+        x: number;
+        y: number;
+        z: number;
+    };
+    html: string;
+    opacity?: number;
+    enableLine?: boolean;
+    alert?: boolean;
+    icon?: string;
+};
+
 /**
  * Namespace for Pinport client types.
  */
-export declare namespace Pinport {
-    type Pin = PinType.Pin;
-    type CreatePin = PinType.CreatePin;
+declare namespace Pinport {
+    type Pin = Pin;
+    type CreatePin = CreatePin;
     type ErrorResponse = ThrowErrorResponse;
     type PinportFetch = <T>(input: string | URL | globalThis.Request, init?: RequestInit) => Promise<T>;
     interface Extension {
@@ -17,7 +59,7 @@ export declare namespace Pinport {
  * Pinport client class for interacting with the Pinport API.
  * @template T - Array of extensions to be initialized.
  */
-export declare class PinportClient<T extends Pinport.Extension[]> {
+declare class PinportClient<T extends Pinport.Extension[]> {
     private apiUrl;
     private key;
     private options?;
@@ -37,8 +79,8 @@ export declare class PinportClient<T extends Pinport.Extension[]> {
      * const pinport = new PinportClient('<api_url>', '<private_key> or <public_key>');
      */
     constructor(apiUrl: string, key: string, options?: {
-        requestInit?: RequestInit | undefined;
-        extensions?: T | undefined;
+        requestInit?: RequestInit;
+        extensions?: T;
     } | undefined);
     private initializeExtensions;
     private fetch;
@@ -82,7 +124,7 @@ export declare class PinportClient<T extends Pinport.Extension[]> {
      * });
      * ```
      */
-    createPins(pins: Pinport.CreatePin[]): Promise<PinType.Pin[]>;
+    createPins(pins: Pinport.CreatePin[]): Promise<Pin[]>;
     /**
      * Retrieves all pins by sending a GET request to the Pinport API.
      * @param {string} meta_id - Meta ID used for searching pins.
@@ -97,5 +139,7 @@ export declare class PinportClient<T extends Pinport.Extension[]> {
      * });
      * ```
      */
-    getPins(meta_id: string): Promise<PinType.Pin[]>;
+    getPins(meta_id: string): Promise<Pin[]>;
 }
+
+export { Pinport, PinportClient };
