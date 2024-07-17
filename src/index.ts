@@ -1,12 +1,11 @@
 import type { ThrowErrorResponse } from "./types/error";
-import type * as PinType from "./types/pin";
+import type { CreatePin, Pin } from "./types/pin";
 
 /**
  * Namespace for Pinport client types.
  */
 export declare namespace Pinport {
-	export type Pin = PinType.Pin;
-	export type CreatePin = PinType.CreatePin;
+	export type { Pin,  CreatePin };
 	export type ErrorResponse = ThrowErrorResponse;
 	export type PinportFetch = <T>(
 		input: string | URL | globalThis.Request,
