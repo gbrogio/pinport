@@ -6,7 +6,9 @@
     // "paths": {},
     "esModuleInterop": true,
     "declaration": true,
+    "declarationMap": true,
     "moduleDetection": "force",
+    "lib": ["DOM", "ESNext"],
     "strict": true,
     "skipLibCheck": true,
     "outDir": "./dist"
