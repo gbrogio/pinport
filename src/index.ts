@@ -147,6 +147,6 @@ export class PinportClient<T extends Pinport.Extension[]> {
 	 * ```
 	 */
 	public async getPins(meta_id: string) {
-		return this.fetch<Pinport.Pin[]>(`${this.apiUrl}/pins/${meta_id}`);
+		return this.fetch<Pinport.Pin[]>(`${this.apiUrl}/pins?meta-id=${meta_id}`);
 	}
 }
