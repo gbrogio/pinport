@@ -68,10 +68,10 @@ export class PinportClient<T extends Pinport.Extension[]> {
 		if (this.options?.extensions) {
 			for (const ext of this.options.extensions) {
 				this.extensions[ext.key as T[number]["key"]] = new ext.instance(
-					this.createPins,
-					this.getPins,
-					this.updatePins,
-					this.deletePins,
+					this.createPins.bind(this),
+					this.getPins.bind(this),
+					this.updatePins.bind(this),
+					this.deletePins.bind(this),
 				);
 			}
 		}
