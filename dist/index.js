@@ -109,7 +109,7 @@ var PinportClient = class {
    * ```
    */
   async getPins(meta_id) {
-    return this.fetch(`${this.apiUrl}/pins/${meta_id}`);
+    return this.fetch(`${this.apiUrl}/pins?meta-id=${meta_id}`);
   }
 };
 export {
