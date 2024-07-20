@@ -1,15 +1,22 @@
-// src/utils/fetch.ts
-async function getFetch() {
-  const globalFetch = globalThis.fetch;
-  const isNodeEnv = typeof global !== "undefined";
-  if (globalFetch) {
-    return globalFetch;
+// src/browser.ts
+var getGlobal = function() {
+  if (typeof globalThis !== "undefined") {
+    return globalThis;
   }
-  if (isNodeEnv) {
-    return import("node-fetch").then((d) => d.default);
+  if (typeof global !== "undefined") {
+    return global;
   }
-  return import("whatwg-fetch").then((d) => d.fetch);
-}
+  if (typeof window !== "undefined") {
+    return window;
+  }
+  if (typeof self !== "undefined") {
+    return self;
+  }
+  throw new Error("unable to locate global object");
+};
+var globalObject = getGlobal();
+var fetch = globalObject.fetch;
+var browser_default = globalObject.fetch.bind(globalObject);
 
 // src/index.ts
 var PinportClient = class {
@@ -41,14 +48,16 @@ var PinportClient = class {
     if (this.options?.extensions) {
       for (const ext of this.options.extensions) {
         this.extensions[ext.key] = new ext.instance(
-          this.fetch.bind(this)
+          this.createPins,
+          this.getPins,
+          this.updatePins,
+          this.deletePins
         );
       }
     }
   }
   async fetch(input, init) {
-    const thisFetch = await getFetch();
-    const response = await thisFetch(input, {
+    const response = await browser_default(input, {
       ...init,
       ...this?.options?.requestInit,
       headers: {

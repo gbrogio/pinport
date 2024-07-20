@@ -1,6 +1,6 @@
 {
   "name": "@pinport/client",
-  "version": "0.2.4",
+  "version": "1.0.0",
   "description": "SDK for pinport API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -38,5 +38,5 @@
     "url": "https://github.com/gbrogio/pinport/issues"
   },
   "homepage": "https://github.com/gbrogio/pinport#readme",
-  "dependencies": { "node-fetch": "^3.3.2", "whatwg-fetch": "^3.6.20" }
+  "dependencies": {}
 }

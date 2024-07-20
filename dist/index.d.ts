@@ -60,9 +60,10 @@ declare namespace Pinport {
     export type { Pin, CreatePin };
     export type ErrorResponse = ThrowErrorResponse;
     export type PinportFetch = <T>(input: string | URL | globalThis.Request, init?: RequestInit) => Promise<T>;
+    export type Instance = new (createPins: PinportClient<any>["createPins"], getPins: PinportClient<any>["getPins"], updatePins: PinportClient<any>["updatePins"], deletePins: PinportClient<any>["deletePins"]) => any;
     export interface Extension {
         key: string;
-        instance: new (fetch: PinportFetch) => any;
+        instance: Instance;
     }
 }
 /**
@@ -187,7 +188,7 @@ declare class PinportClient<T extends Pinport.Extension[]> {
      * });
      * ```
      */
-    deletePins(ids: Pinport.Pin['id'][]): Promise<{
+    deletePins(ids: Pinport.Pin["id"][]): Promise<{
         deleted: number;
     }>;
     /**
