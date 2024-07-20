@@ -1,6 +1,17 @@
 type ThrowErrorResponse = {
     error: "unknown" | {
-        issues: [];
+        issues: ({
+            code: "invalid_type";
+            expected: string;
+            received: string;
+            path: [number, ...string[]];
+            message: string;
+        } | {
+            code: "too_small";
+            message: string;
+            minimum: number;
+            path: [];
+        })[];
     };
 };
 
@@ -124,6 +135,61 @@ declare class PinportClient<T extends Pinport.Extension[]> {
      * ```
      */
     createPins(pins: Pinport.CreatePin[]): Promise<Pin[]>;
+    /**
+     * Updates multiple pins by sending a PUT request to the Pinport API.
+     * @param {Array<Partial<Omit<Pinport.Pin, "id">> & { id: string }>} pins - Array of pin objects to be updated. Each object must include the `id` of the pin to be updated.
+     * @returns {Promise<Pinport.Pin[]>} A promise that resolves to an array of updated pin objects.
+     *
+     * @remarks
+     * The `id` property is required to identify which pin to update.
+     *
+     * @example
+     * ```typescript
+     * const pinsToUpdate: Array<Partial<Omit<Pinport.Pin, "id">> & { id: string }> = [
+     *   {
+     *     id: "pin1",
+     *     position: { x: 2, y: 3, z: 4 },
+     *     html: "<div>Updated Pin 1</div>"
+     *   },
+     *   {
+     *     id: "pin2",
+     *     opacity: 1.0,
+     *     enableLine: true
+     *   }
+     * ];
+     *
+     * updatePins(pinsToUpdate).then((response) => {
+     *   console.log("Updated pins:", response);
+     * }).catch((error: Pinport.ErrorResponse) => {
+     *   console.error("Error updating pins:", error);
+     * });
+     * ```
+     */
+    updatePins(pins: (Partial<Omit<Pinport.Pin, "id">> & {
+        id: Pinport.Pin["id"];
+    })[]): Promise<Pin[]>;
+    /**
+     * Deletes multiple pins by sending a DELETE request to the Pinport API.
+     * @param {string[]} ids - Array of pin IDs to be deleted.
+     * @returns {Promise<{ deleted: number }>} A promise that resolves to an object containing the number of deleted pins.
+     *
+     * @remarks
+     * The `id` property is required to identify which pins to delete.
+     *
+     * @example
+     * ```typescript
+     * const idsToDelete: string[] = ["pin1", "pin2"];
+     *
+     * deletePins(idsToDelete).then((response) => {
+     *   console.log("Deleted pins count:", response.deleted);
+     * }).catch((error: Pinport.ErrorResponse) => {
+     *   console.error("Error deleting pins:", error);
+     * });
+     * ```
+     */
+    deletePins(ids: Pinport.Pin['id'][]): Promise<{
+        deleted: number;
+    }>;
     /**
      * Retrieves all pins by sending a GET request to the Pinport API.
      * @param {string} meta_id - Meta ID used for searching pins.

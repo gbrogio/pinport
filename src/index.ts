@@ -1,5 +1,6 @@
 import type { ThrowErrorResponse } from "./types/error";
 import type { CreatePin, Pin } from "./types/pin";
+import { getFetch } from "./utils/fetch";
 
 /**
  * Namespace for Pinport client types.
@@ -69,7 +70,7 @@ export class PinportClient<T extends Pinport.Extension[]> {
     input: string | URL | globalThis.Request,
     init?: RequestInit
   ) {
-    const thisFetch = self?.fetch || globalThis.fetch;
+    const thisFetch = await getFetch();
     const response = await thisFetch(input, {
       ...init,
       ...this?.options?.requestInit,

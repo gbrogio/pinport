@@ -11,8 +11,9 @@
     "lib": ["DOM", "ESNext"],
     "strict": true,
     "skipLibCheck": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "allowJs": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "whatwg-fetch.d.ts"],
   "exclude": ["node_modules", "dist"]
 }
