@@ -33,6 +33,7 @@ type Pin = {
     enableLine: boolean;
     alert: boolean;
     icon: string;
+    color: string;
 };
 type CreatePin = {
     meta_id: string;
@@ -51,6 +52,7 @@ type CreatePin = {
     enableLine?: boolean;
     alert?: boolean;
     icon?: string;
+    color?: string;
 };
 
 /**
@@ -102,6 +104,7 @@ declare class PinportClient<T extends Pinport.Extension[]> {
      *
      * @remarks
      * The `meta_id` property is a key that allows for easier searching of pins when calling `getPins`.
+     * The `color` property is the pin color in hexadecimal.
      *
      * @example
      * ```typescript
@@ -114,7 +117,8 @@ declare class PinportClient<T extends Pinport.Extension[]> {
      *     opacity: 0.8,
      *     enableLine: true,
      *     alert: false,
-     *     icon: "icon1"
+     *     icon: "icon1",
+     *     color: "#2a00ff",
      *   },
      *   {
      *     meta_id: "meta2",
@@ -143,6 +147,7 @@ declare class PinportClient<T extends Pinport.Extension[]> {
      *
      * @remarks
      * The `id` property is required to identify which pin to update.
+     * The `color` property is the pin color in hexadecimal.
      *
      * @example
      * ```typescript
@@ -155,7 +160,8 @@ declare class PinportClient<T extends Pinport.Extension[]> {
      *   {
      *     id: "pin2",
      *     opacity: 1.0,
-     *     enableLine: true
+     *     enableLine: true,
+     * 		 color: "#f10142"
      *   }
      * ];
      *
