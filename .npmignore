@@ -4,3 +4,4 @@
 .DS_Store
 tsconfig.json
 ts.config.ts
+*.npmrc
