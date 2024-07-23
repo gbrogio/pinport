@@ -18,6 +18,7 @@ export declare namespace Pinport {
 		getPins: PinportClient<any>["getPins"],
 		updatePins: PinportClient<any>["updatePins"],
 		deletePins: PinportClient<any>["deletePins"],
+		getMetadata: PinportClient<any>["getMetadata"],
 	) => any;
 
 	export interface Extension {
@@ -72,6 +73,7 @@ export class PinportClient<T extends Pinport.Extension[]> {
 					this.getPins.bind(this),
 					this.updatePins.bind(this),
 					this.deletePins.bind(this),
+					this.getMetadata.bind(this),
 				);
 			}
 		}
@@ -92,7 +94,7 @@ export class PinportClient<T extends Pinport.Extension[]> {
 			},
 		});
 
-		const res = response.json();
+		const res = await response.json();
 		if (response.status > 399) throw { ...res, status: response.status };
 		return res as T;
 	}
@@ -229,5 +231,25 @@ export class PinportClient<T extends Pinport.Extension[]> {
 	 */
 	public async getPins(meta_id: string) {
 		return this.fetch<Pinport.Pin[]>(`${this.apiUrl}/pins?meta-id=${meta_id}`);
+	}
+
+	/**
+	 * Retrieves user metadata based on key provided.
+	 * @param {string} key - A optional param for get a specific value in metadata.
+	 * @returns {Promise<Record<string, any> | any>} A promise that resolves the value of metadata.
+	 *
+	 * @example
+	 * ```typescript
+	 * getMetadata('matterport').then((response) => {
+	 *   console.log("Retrieved key:", response);
+	 * }).catch((error: Pinport.ErrorResponse) => {
+	 *   console.error("Error retrieving key:", error);
+	 * });
+	 * ```
+	 */
+	public async getMetadata<T extends string>(key?: T): Promise<{[k in T]: any}> {
+		return this.fetch<Record<string, any> | any>(
+			`${this.apiUrl}/users/metadata?${key ? `key=${key}` : ""}`,
+		);
 	}
 }

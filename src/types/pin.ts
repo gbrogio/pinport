@@ -8,7 +8,7 @@ export type Pin = {
 	enableLine: boolean;
 	alert: boolean;
 	icon: string;
-	color: string,
+	color: string;
 };
 
 export type CreatePin = {
@@ -20,5 +20,5 @@ export type CreatePin = {
 	enableLine?: boolean;
 	alert?: boolean;
 	icon?: string;
-	color?: string,
+	color?: string;
 };

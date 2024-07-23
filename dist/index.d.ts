@@ -62,7 +62,7 @@ declare namespace Pinport {
     export type { Pin, CreatePin };
     export type ErrorResponse = ThrowErrorResponse;
     export type PinportFetch = <T>(input: string | URL | globalThis.Request, init?: RequestInit) => Promise<T>;
-    export type Instance = new (createPins: PinportClient<any>["createPins"], getPins: PinportClient<any>["getPins"], updatePins: PinportClient<any>["updatePins"], deletePins: PinportClient<any>["deletePins"]) => any;
+    export type Instance = new (createPins: PinportClient<any>["createPins"], getPins: PinportClient<any>["getPins"], updatePins: PinportClient<any>["updatePins"], deletePins: PinportClient<any>["deletePins"], getMetadata: PinportClient<any>["getMetadata"]) => any;
     export interface Extension {
         key: string;
         instance: Instance;
@@ -212,6 +212,23 @@ declare class PinportClient<T extends Pinport.Extension[]> {
      * ```
      */
     getPins(meta_id: string): Promise<Pin[]>;
+    /**
+     * Retrieves user metadata based on key provided.
+     * @param {string} key - A optional param for get a specific value in metadata.
+     * @returns {Promise<Record<string, any> | any>} A promise that resolves the value of metadata.
+     *
+     * @example
+     * ```typescript
+     * getMetadata('matterport').then((response) => {
+     *   console.log("Retrieved key:", response);
+     * }).catch((error: Pinport.ErrorResponse) => {
+     *   console.error("Error retrieving key:", error);
+     * });
+     * ```
+     */
+    getMetadata<T extends string>(key?: T): Promise<{
+        [k in T]: any;
+    }>;
 }
 
 export { Pinport, PinportClient };

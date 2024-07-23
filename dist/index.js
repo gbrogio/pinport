@@ -51,7 +51,8 @@ var PinportClient = class {
           this.createPins.bind(this),
           this.getPins.bind(this),
           this.updatePins.bind(this),
-          this.deletePins.bind(this)
+          this.deletePins.bind(this),
+          this.getMetadata.bind(this)
         );
       }
     }
@@ -67,7 +68,7 @@ var PinportClient = class {
         Authorization: `Bearer ${this.key}`
       }
     });
-    const res = response.json();
+    const res = await response.json();
     if (response.status > 399) throw { ...res, status: response.status };
     return res;
   }
@@ -198,6 +199,25 @@ var PinportClient = class {
    */
   async getPins(meta_id) {
     return this.fetch(`${this.apiUrl}/pins?meta-id=${meta_id}`);
+  }
+  /**
+   * Retrieves user metadata based on key provided.
+   * @param {string} key - A optional param for get a specific value in metadata.
+   * @returns {Promise<Record<string, any> | any>} A promise that resolves the value of metadata.
+   *
+   * @example
+   * ```typescript
+   * getMetadata('matterport').then((response) => {
+   *   console.log("Retrieved key:", response);
+   * }).catch((error: Pinport.ErrorResponse) => {
+   *   console.error("Error retrieving key:", error);
+   * });
+   * ```
+   */
+  async getMetadata(key) {
+    return this.fetch(
+      `${this.apiUrl}/users/metadata?${key ? `key=${key}` : ""}`
+    );
   }
 };
 export {
